@@ -8,20 +8,18 @@
     android:background="@color/pastel_blue">
 
     <TextView
-        android:id="@+id/text_app_name2"
+        android:id="@+id/text_app_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:fontFamily="@font/chelsea_market"
+        android:theme="@style/LargeText"
         android:text="@string/app_name"
-        android:textColor="@color/black"
-        android:textSize="50sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/text_quote2"
+        android:id="@+id/text_quote"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
@@ -37,49 +35,52 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_app_overview2" />
+        app:layout_constraintTop_toBottomOf="@+id/text_app_overview" />
 
     <Button
-        android:id="@+id/button_exercises2"
+        android:id="@+id/button_exercises"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="110dp"
         android:backgroundTint="@color/pastel_pink"
+        android:fontFamily="@font/chelsea_market"
         android:text="@string/exercises"
         android:textColor="@color/black"
-        app:layout_constraintEnd_toStartOf="@+id/button_saved_plans2"
+        app:layout_constraintEnd_toStartOf="@+id/button_customize_plan"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_quote2" />
+        app:layout_constraintTop_toTopOf="@+id/text_quote" />
 
     <Button
-        android:id="@+id/button_customize_plan2"
-        android:layout_width="0dp"
+        android:id="@+id/button_customize_plan"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/pastel_pink"
+        android:fontFamily="@font/chelsea_market"
         android:text="@string/customize_plan"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/button_saved_plans2"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/button_exercises"
+        app:layout_constraintEnd_toStartOf="@+id/button_saved_plans"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button_saved_plans2"
-        app:layout_constraintTop_toTopOf="@+id/button_saved_plans2" />
+        app:layout_constraintStart_toEndOf="@+id/button_exercises"
+        app:layout_constraintTop_toTopOf="@+id/button_exercises" />
 
     <Button
-        android:id="@+id/button_saved_plans2"
+        android:id="@+id/button_saved_plans"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/pastel_pink"
+        android:fontFamily="@font/chelsea_market"
         android:text="@string/saved_plans"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/button_exercises2"
-        app:layout_constraintEnd_toStartOf="@+id/button_customize_plan2"
+        app:layout_constraintBottom_toBottomOf="@+id/button_customize_plan"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button_exercises2"
-        app:layout_constraintTop_toTopOf="@+id/button_exercises2" />
+        app:layout_constraintStart_toEndOf="@+id/button_customize_plan"
+        app:layout_constraintTop_toTopOf="@+id/button_customize_plan" />
 
     <TextView
-        android:id="@+id/text_app_overview2"
+        android:id="@+id/text_app_overview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -94,5 +95,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_app_name2" />
+        app:layout_constraintTop_toBottomOf="@+id/text_app_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>

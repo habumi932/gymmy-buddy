@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/pastel_blue"
-    android:theme="@style/LargeText"
     tools:context=".ExercisesActivity">
 
     <TextView
@@ -15,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
         android:text="@string/exercises"
-        android:theme="@style/LargeText"
+        style="@style/LargeText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

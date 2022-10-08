@@ -1,0 +1,17 @@
+type Category @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  category_name: String
+}
+
+type Exercise @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  exercise_name: String!
+  category_name: String!
+  target_muscles: [String!]
+  tools: [String!]
+  num_sets: Int
+  num_reps: Int
+  duration: Int
+  Category: Category @hasOne
+}
+ 

@@ -1,0 +1,7 @@
+{
+    "AppSyncApiName": "GymmyBuddy",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": false,
+    "S3DeploymentBucket": "amplify-gymmybuddy-staging-192608-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/470abb58a2f26f127cbf53b49d3db394f8bb3589"
+}

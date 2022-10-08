@@ -1,0 +1,310 @@
+
+type Category @aws_iam @aws_api_key {
+  id: ID!
+  category_name: String
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+}
+
+type Exercise @aws_iam @aws_api_key {
+  id: ID!
+  exercise_name: String!
+  category_name: String!
+  target_muscles: [String!]
+  tools: [String!]
+  num_sets: Int
+  num_reps: Int
+  duration: Int
+  Category: Category
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  _version: Int!
+  _deleted: Boolean
+  _lastChangedAt: AWSTimestamp!
+  exerciseCategoryId: ID
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelSubscriptionStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  in: [String]
+  notIn: [String]
+}
+
+input ModelSubscriptionIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  in: [Int]
+  notIn: [Int]
+}
+
+input ModelSubscriptionFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  in: [Float]
+  notIn: [Float]
+}
+
+input ModelSubscriptionBooleanInput {
+  ne: Boolean
+  eq: Boolean
+}
+
+input ModelSubscriptionIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  in: [ID]
+  notIn: [ID]
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelCategoryConnection @aws_api_key @aws_iam {
+  items: [Category]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelCategoryFilterInput {
+  id: ModelIDInput
+  category_name: ModelStringInput
+  and: [ModelCategoryFilterInput]
+  or: [ModelCategoryFilterInput]
+  not: ModelCategoryFilterInput
+}
+
+type Query {
+  getCategory(id: ID!): Category @aws_api_key @aws_iam
+  listCategories(filter: ModelCategoryFilterInput, limit: Int, nextToken: String): ModelCategoryConnection @aws_api_key @aws_iam
+  syncCategories(filter: ModelCategoryFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelCategoryConnection @aws_api_key @aws_iam
+  getExercise(id: ID!): Exercise @aws_api_key @aws_iam
+  listExercises(filter: ModelExerciseFilterInput, limit: Int, nextToken: String): ModelExerciseConnection @aws_api_key @aws_iam
+  syncExercises(filter: ModelExerciseFilterInput, limit: Int, nextToken: String, lastSync: AWSTimestamp): ModelExerciseConnection @aws_api_key @aws_iam
+}
+
+input ModelCategoryConditionInput {
+  category_name: ModelStringInput
+  and: [ModelCategoryConditionInput]
+  or: [ModelCategoryConditionInput]
+  not: ModelCategoryConditionInput
+}
+
+input CreateCategoryInput {
+  id: ID
+  category_name: String
+  _version: Int
+}
+
+input UpdateCategoryInput {
+  id: ID!
+  category_name: String
+  _version: Int
+}
+
+input DeleteCategoryInput {
+  id: ID!
+  _version: Int
+}
+
+type Mutation {
+  createCategory(input: CreateCategoryInput!, condition: ModelCategoryConditionInput): Category @aws_api_key @aws_iam
+  updateCategory(input: UpdateCategoryInput!, condition: ModelCategoryConditionInput): Category @aws_api_key @aws_iam
+  deleteCategory(input: DeleteCategoryInput!, condition: ModelCategoryConditionInput): Category @aws_api_key @aws_iam
+  createExercise(input: CreateExerciseInput!, condition: ModelExerciseConditionInput): Exercise @aws_api_key @aws_iam
+  updateExercise(input: UpdateExerciseInput!, condition: ModelExerciseConditionInput): Exercise @aws_api_key @aws_iam
+  deleteExercise(input: DeleteExerciseInput!, condition: ModelExerciseConditionInput): Exercise @aws_api_key @aws_iam
+}
+
+type Subscription {
+  onCreateCategory: Category @aws_subscribe(mutations: ["createCategory"]) @aws_api_key @aws_iam
+  onUpdateCategory: Category @aws_subscribe(mutations: ["updateCategory"]) @aws_api_key @aws_iam
+  onDeleteCategory: Category @aws_subscribe(mutations: ["deleteCategory"]) @aws_api_key @aws_iam
+  onCreateExercise: Exercise @aws_subscribe(mutations: ["createExercise"]) @aws_api_key @aws_iam
+  onUpdateExercise: Exercise @aws_subscribe(mutations: ["updateExercise"]) @aws_api_key @aws_iam
+  onDeleteExercise: Exercise @aws_subscribe(mutations: ["deleteExercise"]) @aws_api_key @aws_iam
+}
+
+type ModelExerciseConnection @aws_api_key @aws_iam {
+  items: [Exercise]!
+  nextToken: String
+  startedAt: AWSTimestamp
+}
+
+input ModelExerciseFilterInput {
+  id: ModelIDInput
+  exercise_name: ModelStringInput
+  category_name: ModelStringInput
+  target_muscles: ModelStringInput
+  tools: ModelStringInput
+  num_sets: ModelIntInput
+  num_reps: ModelIntInput
+  duration: ModelIntInput
+  and: [ModelExerciseFilterInput]
+  or: [ModelExerciseFilterInput]
+  not: ModelExerciseFilterInput
+  exerciseCategoryId: ModelIDInput
+}
+
+input ModelExerciseConditionInput {
+  exercise_name: ModelStringInput
+  category_name: ModelStringInput
+  target_muscles: ModelStringInput
+  tools: ModelStringInput
+  num_sets: ModelIntInput
+  num_reps: ModelIntInput
+  duration: ModelIntInput
+  and: [ModelExerciseConditionInput]
+  or: [ModelExerciseConditionInput]
+  not: ModelExerciseConditionInput
+  exerciseCategoryId: ModelIDInput
+}
+
+input CreateExerciseInput {
+  id: ID
+  exercise_name: String!
+  category_name: String!
+  target_muscles: [String!]
+  tools: [String!]
+  num_sets: Int
+  num_reps: Int
+  duration: Int
+  _version: Int
+  exerciseCategoryId: ID
+}
+
+input UpdateExerciseInput {
+  id: ID!
+  exercise_name: String
+  category_name: String
+  target_muscles: [String!]
+  tools: [String!]
+  num_sets: Int
+  num_reps: Int
+  duration: Int
+  _version: Int
+  exerciseCategoryId: ID
+}
+
+input DeleteExerciseInput {
+  id: ID!
+  _version: Int
+}
+

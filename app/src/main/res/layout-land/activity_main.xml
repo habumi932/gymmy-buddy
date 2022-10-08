@@ -5,7 +5,9 @@
     android:id="@+id/main_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/pastel_blue">
+    android:background="@color/pastel_blue"
+    android:theme="@style/Theme.GymmyBuddy"
+    tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/text_app_name"

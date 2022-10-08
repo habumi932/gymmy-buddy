@@ -1,0 +1,15 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-gymmybuddy-staging-192608-authRole",
+      "UnauthRoleArn": "arn:aws:iam::394373485323:role/amplify-gymmybuddy-staging-192608-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::394373485323:role/amplify-gymmybuddy-staging-192608-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-gymmybuddy-staging-192608-deployment",
+      "UnauthRoleName": "amplify-gymmybuddy-staging-192608-unauthRole",
+      "StackName": "amplify-gymmybuddy-staging-192608",
+      "StackId": "arn:aws:cloudformation:us-east-2:394373485323:stack/amplify-gymmybuddy-staging-192608/bc7569d0-40f5-11ed-9e1d-0ad43c377902",
+      "AmplifyAppId": "d3lftlmzt9kbi5"
+    }
+  }
+}

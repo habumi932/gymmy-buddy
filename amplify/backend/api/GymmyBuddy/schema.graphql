@@ -13,5 +13,4 @@ type Exercise @model @auth(rules: [{allow: public}]) {
   num_reps: Int
   duration: Int
   Category: Category @hasOne
-}
- 
+} 

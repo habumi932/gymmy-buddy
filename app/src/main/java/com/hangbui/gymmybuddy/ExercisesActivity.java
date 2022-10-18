@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
@@ -16,11 +18,23 @@ import com.amplifyframework.datastore.generated.model.Category;
 import com.amplifyframework.datastore.generated.model.Exercise;
 import com.hangbui.gymmybuddy.databinding.ActivityExercisesBinding;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class ExercisesActivity extends AppCompatActivity {
 
     private ActivityExercisesBinding binding;
+    private List<Exercise> exercises = new ArrayList<>();
+
+    private View.OnClickListener button_search_onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            CustomAdapter adapter = new CustomAdapter(ExercisesActivity.this, exercises);
+            Log.d("ExerciseActivity", String.valueOf(exercises.size()));
+            binding.listviewExercises.setAdapter(adapter);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +42,7 @@ public class ExercisesActivity extends AppCompatActivity {
         binding = ActivityExercisesBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.buttonSearch.setOnClickListener(button_search_onClickListener);
         //Initialize Amplify API
         try {
             Amplify.addPlugin(new AWSDataStorePlugin());
@@ -39,16 +54,43 @@ public class ExercisesActivity extends AppCompatActivity {
             Log.e("GymmyBuddy", "Could not initialize Amplify", error);
         }
 
+        //Print all exercise names to log
+
+        Amplify.API.query(
+                ModelQuery.list(Exercise.class, Exercise.EXERCISE_NAME.contains("")),
+                response -> {
+                    for (Exercise exercise : response.getData()) {
+                        if (exercise != null) {
+                            Log.i("GymmyBuddy", exercise.getCategoryName());
+                            if(exercises.add(exercise)){
+                                Log.d("Add Exercise", "success");
+                            };
+                        }
+                    }
+                },
+                error -> Log.e("GymmyBuddy", "Query failure", error)
+        );
+
+        CustomAdapter adapter = new CustomAdapter(this, exercises);
+        Log.d("ExerciseActivity", String.valueOf(exercises.size()));
+        binding.listviewExercises.setAdapter(adapter);
+        Log.d("ExerciseActivity", "End of onCreate");
+
+    }
+
+    private void createNewExercise(String exerciseName, String categoryName, List<String> targetMuscles, List<String> tools,
+                                   int numSets, int numReps, int duration, String exercistCategoryId) {
+
         // Create new Exercise object
         Exercise newExercise = Exercise.builder()
-                .exerciseName("Mountain climber")
-                .categoryName("Abdominals")
-                .targetMuscles(Arrays.asList(new String[]{"Abs"}))
-                .tools(Arrays.asList(new String[]{""}))
-                .numSets(8)
-                .numReps(3)
-                .duration(10)
-                .exerciseCategoryId("Abdominals")
+                .exerciseName(exerciseName)
+                .categoryName(categoryName)
+                .targetMuscles(targetMuscles)
+                .tools(tools)
+                .numSets(numSets)
+                .numReps(numReps)
+                .duration(duration)
+                .exerciseCategoryId(exercistCategoryId)
                 .build();
 
         //Push object to GraphQL API
@@ -56,20 +98,6 @@ public class ExercisesActivity extends AppCompatActivity {
                 response -> Log.i("Amplify", "Exercise with id: " + response.getData().getId()),
                 error -> Log.e("Amplify", "Create failed", error)
         );
-
-        //Print all exercise names to log
-        Amplify.API.query(
-                ModelQuery.list(Exercise.class, Exercise.EXERCISE_NAME.contains("")),
-                response -> {
-                    for (Exercise exercise : response.getData()) {
-                        if (exercise != null) {
-                            Log.i("GymmyBuddy", exercise.getExerciseName());
-                        }
-                    }
-                },
-                error -> Log.e("GymmyBuddy", "Query failure", error)
-        );
-
     }
 
     /**

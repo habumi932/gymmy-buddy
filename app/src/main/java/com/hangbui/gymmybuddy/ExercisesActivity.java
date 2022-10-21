@@ -25,14 +25,12 @@ import java.util.List;
 public class ExercisesActivity extends AppCompatActivity {
 
     private ActivityExercisesBinding binding;
-    private List<Exercise> exercises = new ArrayList<>();
+    private ArrayList<Exercise> exercises = new ArrayList<>();
 
     private View.OnClickListener button_search_onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            CustomAdapter adapter = new CustomAdapter(ExercisesActivity.this, exercises);
-            Log.d("ExerciseActivity", String.valueOf(exercises.size()));
-            binding.listviewExercises.setAdapter(adapter);
+            updateListview();
         }
     };
 
@@ -54,28 +52,33 @@ public class ExercisesActivity extends AppCompatActivity {
             Log.e("GymmyBuddy", "Could not initialize Amplify", error);
         }
 
-        //Print all exercise names to log
+        updateListview();
 
+    }
+
+    private void updateListview() {
+        exercises = new ArrayList<>();
+        String searchKey = binding.edittextFindExercise.getText().toString();
         Amplify.API.query(
-                ModelQuery.list(Exercise.class, Exercise.EXERCISE_NAME.contains("")),
+                ModelQuery.list(Exercise.class, Exercise.EXERCISE_NAME.contains(searchKey)),
                 response -> {
                     for (Exercise exercise : response.getData()) {
                         if (exercise != null) {
-                            Log.i("GymmyBuddy", exercise.getCategoryName());
                             if(exercises.add(exercise)){
                                 Log.d("Add Exercise", "success");
                             };
                         }
                     }
+                    CustomAdapter adapter = new CustomAdapter(this, exercises);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            binding.listviewExercises.setAdapter(adapter);
+                        }
+                    });
+                    Log.d("Try", String.valueOf(exercises.size()));
                 },
                 error -> Log.e("GymmyBuddy", "Query failure", error)
         );
-
-        CustomAdapter adapter = new CustomAdapter(this, exercises);
-        Log.d("ExerciseActivity", String.valueOf(exercises.size()));
-        binding.listviewExercises.setAdapter(adapter);
-        Log.d("ExerciseActivity", "End of onCreate");
-
     }
 
     private void createNewExercise(String exerciseName, String categoryName, List<String> targetMuscles, List<String> tools,

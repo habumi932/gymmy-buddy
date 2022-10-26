@@ -22,13 +22,17 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
 /** This is an auto generated class representing the Category type in your schema. */
 @SuppressWarnings("all")
 @ModelConfig(pluralName = "Categories", authRules = {
-  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ })
+  @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
+  @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ })
 })
+@Index(name = "byExercise", fields = {"exerciseID"})
 public final class Category implements Model {
   public static final QueryField ID = field("Category", "id");
   public static final QueryField CATEGORY_NAME = field("Category", "category_name");
+  public static final QueryField EXERCISE_ID = field("Category", "exerciseID");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String") String category_name;
+  private final @ModelField(targetType="ID", isRequired = true) String exerciseID;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -39,6 +43,10 @@ public final class Category implements Model {
       return category_name;
   }
   
+  public String getExerciseId() {
+      return exerciseID;
+  }
+  
   public Temporal.DateTime getCreatedAt() {
       return createdAt;
   }
@@ -47,9 +55,10 @@ public final class Category implements Model {
       return updatedAt;
   }
   
-  private Category(String id, String category_name) {
+  private Category(String id, String category_name, String exerciseID) {
     this.id = id;
     this.category_name = category_name;
+    this.exerciseID = exerciseID;
   }
   
   @Override
@@ -62,6 +71,7 @@ public final class Category implements Model {
       Category category = (Category) obj;
       return ObjectsCompat.equals(getId(), category.getId()) &&
               ObjectsCompat.equals(getCategoryName(), category.getCategoryName()) &&
+              ObjectsCompat.equals(getExerciseId(), category.getExerciseId()) &&
               ObjectsCompat.equals(getCreatedAt(), category.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), category.getUpdatedAt());
       }
@@ -72,6 +82,7 @@ public final class Category implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getCategoryName())
+      .append(getExerciseId())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .toString()
@@ -84,13 +95,14 @@ public final class Category implements Model {
       .append("Category {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("category_name=" + String.valueOf(getCategoryName()) + ", ")
+      .append("exerciseID=" + String.valueOf(getExerciseId()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()))
       .append("}")
       .toString();
   }
   
-  public static BuildStep builder() {
+  public static ExerciseIdStep builder() {
       return new Builder();
   }
   
@@ -105,14 +117,21 @@ public final class Category implements Model {
   public static Category justId(String id) {
     return new Category(
       id,
+      null,
       null
     );
   }
   
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
-      category_name);
+      category_name,
+      exerciseID);
   }
+  public interface ExerciseIdStep {
+    BuildStep exerciseId(String exerciseId);
+  }
+  
+
   public interface BuildStep {
     Category build();
     BuildStep id(String id);
@@ -120,8 +139,9 @@ public final class Category implements Model {
   }
   
 
-  public static class Builder implements BuildStep {
+  public static class Builder implements ExerciseIdStep, BuildStep {
     private String id;
+    private String exerciseID;
     private String category_name;
     @Override
      public Category build() {
@@ -129,7 +149,15 @@ public final class Category implements Model {
         
         return new Category(
           id,
-          category_name);
+          category_name,
+          exerciseID);
+    }
+    
+    @Override
+     public BuildStep exerciseId(String exerciseId) {
+        Objects.requireNonNull(exerciseId);
+        this.exerciseID = exerciseId;
+        return this;
     }
     
     @Override
@@ -150,9 +178,15 @@ public final class Category implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String categoryName) {
+    private CopyOfBuilder(String id, String categoryName, String exerciseId) {
       super.id(id);
-      super.categoryName(categoryName);
+      super.exerciseId(exerciseId)
+        .categoryName(categoryName);
+    }
+    
+    @Override
+     public CopyOfBuilder exerciseId(String exerciseId) {
+      return (CopyOfBuilder) super.exerciseId(exerciseId);
     }
     
     @Override

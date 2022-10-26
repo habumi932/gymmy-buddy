@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.amplifyframework.datastore.generated.model.Category;
 import com.amplifyframework.datastore.generated.model.Exercise;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CustomAdapter extends BaseAdapter {
@@ -47,7 +49,13 @@ public class CustomAdapter extends BaseAdapter {
         TextView category = convertView.findViewById(R.id.textView_category);
 
         exerciseName.setText(exercise.getExerciseName());
-        category.setText(exercise.getCategoryName());
+        List<String> categories = new ArrayList<>();
+        for(Category c : exercise.getCategories()) {
+            if(c != null) {
+                categories.add(c.getCategoryName());
+            }
+        }
+        category.setText(String.join(",", categories));
 
         return convertView;
     }

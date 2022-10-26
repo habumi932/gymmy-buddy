@@ -18,6 +18,7 @@ import com.amplifyframework.datastore.generated.model.Category;
 import com.amplifyframework.datastore.generated.model.Exercise;
 import com.hangbui.gymmybuddy.databinding.ActivityExercisesBinding;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -41,19 +42,8 @@ public class ExercisesActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.buttonSearch.setOnClickListener(button_search_onClickListener);
-        //Initialize Amplify API
-        try {
-            Amplify.addPlugin(new AWSDataStorePlugin());
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.configure(getApplicationContext());
-
-            Log.i("GymmyBuddy", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("GymmyBuddy", "Could not initialize Amplify", error);
-        }
 
         updateListview();
-
     }
 
     private void updateListview() {
@@ -64,9 +54,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 response -> {
                     for (Exercise exercise : response.getData()) {
                         if (exercise != null) {
-                            if(exercises.add(exercise)){
-                                Log.d("Add Exercise", "success");
-                            };
+                            exercises.add(exercise);
                         }
                     }
                     CustomAdapter adapter = new CustomAdapter(this, exercises);
@@ -81,10 +69,10 @@ public class ExercisesActivity extends AppCompatActivity {
         );
     }
 
-    private void createNewExercise(String exerciseName, String categoryName, List<String> targetMuscles, List<String> tools,
+    private void createNewExercise(String exerciseName, List<String> categoryName, List<String> targetMuscles, List<String> tools,
                                    int numSets, int numReps, int duration, String exercistCategoryId) {
 
-        // Create new Exercise object
+        /* Create new Exercise object
         Exercise newExercise = Exercise.builder()
                 .exerciseName(exerciseName)
                 .categoryName(categoryName)
@@ -93,14 +81,15 @@ public class ExercisesActivity extends AppCompatActivity {
                 .numSets(numSets)
                 .numReps(numReps)
                 .duration(duration)
-                .exerciseCategoryId(exercistCategoryId)
                 .build();
+        */
 
-        //Push object to GraphQL API
+        /*Push object to GraphQL API
         Amplify.API.mutate(ModelMutation.create(newExercise),
                 response -> Log.i("Amplify", "Exercise with id: " + response.getData().getId()),
                 error -> Log.e("Amplify", "Create failed", error)
         );
+         */
     }
 
     /**
@@ -112,4 +101,12 @@ public class ExercisesActivity extends AppCompatActivity {
         );
     }
      **/
+
+    private void downloadFile(String key) {
+        Amplify.Storage.downloadFile(key,
+                new File(getApplicationContext().getFilesDir() + "/download.txt"),
+                result -> Log.i("MyAmplifyApp", "Successfully downloaded: " + key),
+                error -> Log.e("MyAmplifyApp", "Download failed", error)
+        );
+    }
 }

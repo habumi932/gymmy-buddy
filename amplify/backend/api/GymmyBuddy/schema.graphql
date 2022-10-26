@@ -1,16 +1,27 @@
-type Category @model @auth(rules: [{allow: public}]) {
+type Muscle @model @auth(rules: [{allow: public}, {allow: private, operations: [read]}]) {
   id: ID!
-  category_name: String
+  muscleName: String
+  category: Category
+  exerciseID: ID! @index(name: "byExercise")
+  Category: Category @hasOne
 }
 
-type Exercise @model @auth(rules: [{allow: public}]) {
+type Category @model @auth(rules: [{allow: public}, {allow: private, operations: [read]}]) {
+  id: ID!
+  category_name: String
+  exerciseID: ID! @index(name: "byExercise")
+}
+
+type Exercise @model @auth(rules: [{allow: public}, {allow: private, operations: [read]}]) {
   id: ID!
   exercise_name: String!
-  category_name: String!
-  target_muscles: [String!]
+  category_name: [Category!]!
+  target_muscles: [Muscle!]!
   tools: [String!]
   num_sets: Int
   num_reps: Int
   duration: Int
-  Category: Category @hasOne
-} 
+  Muscles: [Muscle] @hasMany(indexName: "byExercise", fields: ["id"])
+  Categories: [Category] @hasMany(indexName: "byExercise", fields: ["id"])
+}
+ 

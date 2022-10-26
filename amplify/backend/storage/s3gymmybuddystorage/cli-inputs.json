@@ -1,0 +1,12 @@
+{
+  "resourceName": "s3gymmybuddystorage",
+  "bucketName": "gymmy-buddy-storage",
+  "policyUUID": "aa84fdc9",
+  "storageAccess": "auth",
+  "guestAccess": [],
+  "authAccess": [
+    "READ",
+    "CREATE_AND_UPDATE",
+    "DELETE"
+  ]
+}

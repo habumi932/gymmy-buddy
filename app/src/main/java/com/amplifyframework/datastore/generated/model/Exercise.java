@@ -39,8 +39,8 @@ public final class Exercise implements Model {
   private final @ModelField(targetType="Int") Integer num_sets;
   private final @ModelField(targetType="Int") Integer num_reps;
   private final @ModelField(targetType="Int") Integer duration;
-  private final @ModelField(targetType="Muscle") @HasMany(associatedWith = "exerciseID", type = Muscle.class) List<Muscle> Muscles = null;
-  private final @ModelField(targetType="Category") @HasMany(associatedWith = "exerciseID", type = Category.class) List<Category> Categories = null;
+  private final @ModelField(targetType="ExerciseCategory") @HasMany(associatedWith = "exercise", type = ExerciseCategory.class) List<ExerciseCategory> Category = null;
+  private final @ModelField(targetType="ExerciseMuscle") @HasMany(associatedWith = "exercise", type = ExerciseMuscle.class) List<ExerciseMuscle> Muscle = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   public String getId() {
@@ -67,12 +67,12 @@ public final class Exercise implements Model {
       return duration;
   }
   
-  public List<Muscle> getMuscles() {
-      return Muscles;
+  public List<ExerciseCategory> getCategory() {
+      return Category;
   }
   
-  public List<Category> getCategories() {
-      return Categories;
+  public List<ExerciseMuscle> getMuscle() {
+      return Muscle;
   }
   
   public Temporal.DateTime getCreatedAt() {

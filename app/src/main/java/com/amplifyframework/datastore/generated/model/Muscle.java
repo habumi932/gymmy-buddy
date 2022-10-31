@@ -1,6 +1,7 @@
 package com.amplifyframework.datastore.generated.model;
 
 import com.amplifyframework.core.model.annotations.HasOne;
+import com.amplifyframework.core.model.annotations.HasMany;
 import com.amplifyframework.core.model.temporal.Temporal;
 
 import java.util.List;
@@ -26,16 +27,14 @@ import static com.amplifyframework.core.model.query.predicate.QueryField.field;
   @AuthRule(allow = AuthStrategy.PUBLIC, operations = { ModelOperation.CREATE, ModelOperation.UPDATE, ModelOperation.DELETE, ModelOperation.READ }),
   @AuthRule(allow = AuthStrategy.PRIVATE, operations = { ModelOperation.READ })
 })
-@Index(name = "byExercise", fields = {"exerciseID"})
 public final class Muscle implements Model {
   public static final QueryField ID = field("Muscle", "id");
   public static final QueryField MUSCLE_NAME = field("Muscle", "muscleName");
-  public static final QueryField EXERCISE_ID = field("Muscle", "exerciseID");
   public static final QueryField MUSCLE_CATEGORY_ID = field("Muscle", "muscleCategoryId");
   private final @ModelField(targetType="ID", isRequired = true) String id;
   private final @ModelField(targetType="String") String muscleName;
-  private final @ModelField(targetType="ID", isRequired = true) String exerciseID;
   private final @ModelField(targetType="Category") @HasOne(associatedWith = "id", type = Category.class) Category Category = null;
+  private final @ModelField(targetType="ExerciseMuscle") @HasMany(associatedWith = "muscle", type = ExerciseMuscle.class) List<ExerciseMuscle> Exercises = null;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime createdAt;
   private @ModelField(targetType="AWSDateTime", isReadOnly = true) Temporal.DateTime updatedAt;
   private final @ModelField(targetType="ID") String muscleCategoryId;
@@ -47,12 +46,12 @@ public final class Muscle implements Model {
       return muscleName;
   }
   
-  public String getExerciseId() {
-      return exerciseID;
-  }
-  
   public Category getCategory() {
       return Category;
+  }
+  
+  public List<ExerciseMuscle> getExercises() {
+      return Exercises;
   }
   
   public Temporal.DateTime getCreatedAt() {
@@ -67,10 +66,9 @@ public final class Muscle implements Model {
       return muscleCategoryId;
   }
   
-  private Muscle(String id, String muscleName, String exerciseID, String muscleCategoryId) {
+  private Muscle(String id, String muscleName, String muscleCategoryId) {
     this.id = id;
     this.muscleName = muscleName;
-    this.exerciseID = exerciseID;
     this.muscleCategoryId = muscleCategoryId;
   }
   
@@ -84,7 +82,6 @@ public final class Muscle implements Model {
       Muscle muscle = (Muscle) obj;
       return ObjectsCompat.equals(getId(), muscle.getId()) &&
               ObjectsCompat.equals(getMuscleName(), muscle.getMuscleName()) &&
-              ObjectsCompat.equals(getExerciseId(), muscle.getExerciseId()) &&
               ObjectsCompat.equals(getCreatedAt(), muscle.getCreatedAt()) &&
               ObjectsCompat.equals(getUpdatedAt(), muscle.getUpdatedAt()) &&
               ObjectsCompat.equals(getMuscleCategoryId(), muscle.getMuscleCategoryId());
@@ -96,7 +93,6 @@ public final class Muscle implements Model {
     return new StringBuilder()
       .append(getId())
       .append(getMuscleName())
-      .append(getExerciseId())
       .append(getCreatedAt())
       .append(getUpdatedAt())
       .append(getMuscleCategoryId())
@@ -110,7 +106,6 @@ public final class Muscle implements Model {
       .append("Muscle {")
       .append("id=" + String.valueOf(getId()) + ", ")
       .append("muscleName=" + String.valueOf(getMuscleName()) + ", ")
-      .append("exerciseID=" + String.valueOf(getExerciseId()) + ", ")
       .append("createdAt=" + String.valueOf(getCreatedAt()) + ", ")
       .append("updatedAt=" + String.valueOf(getUpdatedAt()) + ", ")
       .append("muscleCategoryId=" + String.valueOf(getMuscleCategoryId()))
@@ -118,7 +113,7 @@ public final class Muscle implements Model {
       .toString();
   }
   
-  public static ExerciseIdStep builder() {
+  public static BuildStep builder() {
       return new Builder();
   }
   
@@ -134,7 +129,6 @@ public final class Muscle implements Model {
     return new Muscle(
       id,
       null,
-      null,
       null
     );
   }
@@ -142,14 +136,8 @@ public final class Muscle implements Model {
   public CopyOfBuilder copyOfBuilder() {
     return new CopyOfBuilder(id,
       muscleName,
-      exerciseID,
       muscleCategoryId);
   }
-  public interface ExerciseIdStep {
-    BuildStep exerciseId(String exerciseId);
-  }
-  
-
   public interface BuildStep {
     Muscle build();
     BuildStep id(String id);
@@ -158,9 +146,8 @@ public final class Muscle implements Model {
   }
   
 
-  public static class Builder implements ExerciseIdStep, BuildStep {
+  public static class Builder implements BuildStep {
     private String id;
-    private String exerciseID;
     private String muscleName;
     private String muscleCategoryId;
     @Override
@@ -170,15 +157,7 @@ public final class Muscle implements Model {
         return new Muscle(
           id,
           muscleName,
-          exerciseID,
           muscleCategoryId);
-    }
-    
-    @Override
-     public BuildStep exerciseId(String exerciseId) {
-        Objects.requireNonNull(exerciseId);
-        this.exerciseID = exerciseId;
-        return this;
     }
     
     @Override
@@ -205,16 +184,10 @@ public final class Muscle implements Model {
   
 
   public final class CopyOfBuilder extends Builder {
-    private CopyOfBuilder(String id, String muscleName, String exerciseId, String muscleCategoryId) {
+    private CopyOfBuilder(String id, String muscleName, String muscleCategoryId) {
       super.id(id);
-      super.exerciseId(exerciseId)
-        .muscleName(muscleName)
+      super.muscleName(muscleName)
         .muscleCategoryId(muscleCategoryId);
-    }
-    
-    @Override
-     public CopyOfBuilder exerciseId(String exerciseId) {
-      return (CopyOfBuilder) super.exerciseId(exerciseId);
     }
     
     @Override

@@ -13,9 +13,11 @@ import com.amplifyframework.api.graphql.model.ModelMutation;
 import com.amplifyframework.api.graphql.model.ModelQuery;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.core.model.Model;
+import com.amplifyframework.core.model.query.Where;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.datastore.generated.model.Category;
 import com.amplifyframework.datastore.generated.model.Exercise;
+import com.amplifyframework.datastore.generated.model.Muscle;
 import com.hangbui.gymmybuddy.databinding.ActivityExercisesBinding;
 
 import java.io.File;
@@ -44,17 +46,19 @@ public class ExercisesActivity extends AppCompatActivity {
         binding.buttonSearch.setOnClickListener(button_search_onClickListener);
 
         updateListview();
+
     }
 
     private void updateListview() {
         exercises = new ArrayList<>();
-        String searchKey = binding.edittextFindExercise.getText().toString();
+        String searchKey = binding.edittextFindExercise.getText().toString().toLowerCase();
         Amplify.API.query(
                 ModelQuery.list(Exercise.class, Exercise.EXERCISE_NAME.contains(searchKey)),
                 response -> {
-                    for (Exercise exercise : response.getData()) {
-                        if (exercise != null) {
+                    for(Exercise exercise : response.getData()) {
+                        if (exercise != null && !exercise.getCategory().isEmpty()) {
                             exercises.add(exercise);
+                            Log.i("Exercises", exercise.getExerciseName());
                         }
                     }
                     CustomAdapter adapter = new CustomAdapter(this, exercises);
@@ -101,6 +105,8 @@ public class ExercisesActivity extends AppCompatActivity {
         );
     }
      **/
+
+
 
     private void downloadFile(String key) {
         Amplify.Storage.downloadFile(key,

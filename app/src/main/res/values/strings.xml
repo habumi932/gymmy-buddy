@@ -5,4 +5,6 @@
     <string name="exercises">Exercises</string>
     <string name="saved_plans">Saved Plans</string>
     <string name="customize_plan">Customize Plan</string>
+    <string name="login_prompt">LET\'S CRUSH IT TODAY!</string>
+    <string name="signup_prompt"><u>Or sign up for an account</u></string>
 </resources>

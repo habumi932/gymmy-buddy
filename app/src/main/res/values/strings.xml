@@ -7,4 +7,5 @@
     <string name="customize_plan">Customize Plan</string>
     <string name="login_prompt">LET\'S CRUSH IT TODAY!</string>
     <string name="signup_prompt"><u>Or sign up for an account</u></string>
+    <string name="login_direct"><u>Back to login</u></string>
 </resources>

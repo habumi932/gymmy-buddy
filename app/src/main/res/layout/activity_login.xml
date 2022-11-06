@@ -87,7 +87,7 @@
         android:layout_marginTop="40dp"
         android:fontFamily="@font/convergence"
         android:text="@string/signup_prompt"
-        android:textSize="18sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

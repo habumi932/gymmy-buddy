@@ -25,18 +25,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        //Initialize Amplify API
-        try {
-            Amplify.addPlugin(new AWSDataStorePlugin());
-            Amplify.addPlugin(new AWSApiPlugin());
-            Amplify.addPlugin(new AWSS3StoragePlugin());
-            Amplify.addPlugin(new AWSCognitoAuthPlugin());
-            Amplify.configure(getApplicationContext());
-
-            Log.i("GymmyBuddy", "Initialized Amplify");
-        } catch (AmplifyException error) {
-            Log.e("GymmyBuddy", "Could not initialize Amplify", error);
-        }
 
         binding.buttonExercises.setOnClickListener(button_exercises_clickListener);
 

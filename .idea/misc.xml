@@ -5,10 +5,11 @@
       <map>
         <entry key="app/src/main/res/layout-land/activity_exercises.xml" value="0.17864583333333334" />
         <entry key="app/src/main/res/layout-land/activity_main.xml" value="0.14947916666666666" />
+        <entry key="app/src/main/res/layout/activity_confirmation.xml" value="0.2252110799153646" />
         <entry key="app/src/main/res/layout/activity_exercises.xml" value="0.23023071289062502" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1957855224609375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.28846153846153844" />
-        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.14895833333333333" />
+        <entry key="app/src/main/res/layout/activity_signup.xml" value="0.23650716145833334" />
         <entry key="app/src/main/res/layout/listview_exercises_row.xml" value="0.253125" />
       </map>
     </option>

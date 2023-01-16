@@ -12,6 +12,9 @@ import android.widget.Toast;
 import com.amplifyframework.AmplifyException;
 import com.amplifyframework.api.aws.AWSApiPlugin;
 import com.amplifyframework.auth.cognito.AWSCognitoAuthPlugin;
+import com.amplifyframework.auth.cognito.options.AWSCognitoAuthSignInOptions;
+import com.amplifyframework.auth.cognito.options.AuthFlowType;
+import com.amplifyframework.auth.options.AuthSignOutOptions;
 import com.amplifyframework.core.Amplify;
 import com.amplifyframework.datastore.AWSDataStorePlugin;
 import com.amplifyframework.storage.s3.AWSS3StoragePlugin;
@@ -33,9 +36,11 @@ public class LoginActivity extends AppCompatActivity {
     private View.OnClickListener button_login_onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            //AWSCognitoAuthSignInOptions options = AWSCognitoAuthSignInOptions.builder().authFlowType(AuthFlowType.USER_PASSWORD_AUTH).build();
             Amplify.Auth.signIn(
                     binding.edittextUsername.getText().toString(),
                     binding.edittextPassword.getText().toString(),
+                    //options,
                     result -> {
                         if(result.isSignInComplete()) {
                             Intent theIntent = new Intent(LoginActivity.this, MainActivity.class);
@@ -87,6 +92,7 @@ public class LoginActivity extends AppCompatActivity {
                 result -> Log.i("AmplifyQuickstart", result.toString()),
                 error -> Log.e("AmplifyQuickstart", error.toString())
         );
+
 
     }
 }

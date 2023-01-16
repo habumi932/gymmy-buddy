@@ -52,9 +52,28 @@ public class ExercisesActivity extends AppCompatActivity {
     private void updateListview() {
         exercises = new ArrayList<>();
         String searchKey = binding.edittextFindExercise.getText().toString().toLowerCase();
+        Amplify.DataStore.query(Exercise.class,
+                allExercises -> {
+                    while (allExercises.hasNext()) {
+                        Exercise exercise = allExercises.next();
+                        exercises.add(exercise);
+                        Log.i("Exercises", exercise.getExerciseName());
+                    }
+                    CustomAdapter adapter = new CustomAdapter(this, exercises);
+                    runOnUiThread(new Runnable() {
+                        public void run() {
+                            binding.listviewExercises.setAdapter(adapter);
+                        }
+                    });
+                    Log.d("Try", String.valueOf(exercises.size()));
+                },
+                failure -> Log.e("MyAmplifyApp", "Query failed.", failure)
+        );
+        /**
         Amplify.API.query(
                 ModelQuery.list(Exercise.class, Exercise.EXERCISE_NAME.contains(searchKey)),
                 response -> {
+                    if(response.getData() == null) return;
                     for(Exercise exercise : response.getData()) {
                         if (exercise != null && !exercise.getCategory().isEmpty()) {
                             exercises.add(exercise);
@@ -71,6 +90,7 @@ public class ExercisesActivity extends AppCompatActivity {
                 },
                 error -> Log.e("GymmyBuddy", "Query failure", error)
         );
+         **/
     }
 
     private void createNewExercise(String exerciseName, List<String> categoryName, List<String> targetMuscles, List<String> tools,

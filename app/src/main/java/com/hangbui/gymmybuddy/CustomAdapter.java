@@ -58,7 +58,6 @@ public class CustomAdapter extends BaseAdapter {
                 }
             }
         }
-
         category.setText(String.join(" | ", categories));
 
         return convertView;
